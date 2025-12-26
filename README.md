@@ -47,7 +47,7 @@ Once dependencies are installed, you need to compile the C++ shared library usin
 
 1.  **Navigate to the base directory:**
     ```bash
-    cd /path/to/agl-score-accelerated
+    cd agl_package
     ```
 
 2.  **Run the build script:**
