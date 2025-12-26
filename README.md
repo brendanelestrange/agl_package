@@ -31,10 +31,10 @@ conda create -n agl_fast
 conda activate agl_fast
 
 # Install C++ dependencies
-conda install -c conda-forge chemfiles  compilers llvm-openmp
+conda install -c conda-forge chemfiles compilers llvm-openmp
 
 # Install Python dependencies
-conda install xgboost scikit-learn numpy pandas
+conda install xgboost scikit-learn numpy pandas pybind11
 ```
 
 ---
@@ -55,7 +55,11 @@ Once dependencies are installed, you need to compile the C++ shared library usin
     chmod +x ./make.sh
     ./make.sh
     ```
-
+    or if you're on ISAAC
+   ```bash
+   chmod +x ./make_isaac.sh
+   ./make_isaac.sh
+    ```
 ---
 
 ## 💻 Usage
