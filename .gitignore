@@ -1,0 +1,11 @@
+build/
+dist/
+*.egg-info/
+__pycache__/
+*.so
+*.dylib
+*.pyd
+.DS_Store
+.vscode/
+Features/
+data/
