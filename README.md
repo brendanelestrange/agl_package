@@ -35,3 +35,60 @@ conda install -c conda-forge chemfiles
 
 # Install Python dependencies
 conda install xgboost scikit-learn numpy pandas
+```
+
+---
+
+## 🚀 Installation & Build
+
+Once dependencies are installed, you need to compile the C++ shared library using the provided build script.
+
+**Note:** You may need to adjust paths in `CMakeLists.txt` depending on your specific system architecture or Conda install path.
+
+1.  **Navigate to the base directory:**
+    ```bash
+    cd /path/to/agl-score-accelerated
+    ```
+
+2.  **Run the build script:**
+    ```bash
+    chmod +x ./make.sh
+    ./make.sh
+    ```
+
+---
+
+## 💻 Usage
+
+You can generate features using the `get_agl_features.py` script located in the `src` directory. This implementation mirrors the API of the original AGL-Score but runs significantly faster.
+
+### Example Command
+This example assumes you have downloaded data from **PDBBind**.
+
+```bash
+python src/get_agl_features.py \
+  -k 112 \
+  -c 12 \
+  -m Adjacency \
+  -f '../csv_data_file/PDBbindv2016_GeneralSet.csv' \
+  -dd '../data/2016' \
+  -fd '../Features'
+```
+
+### Arguments Key
+| Flag | Description |
+| :--- | :--- |
+| `-k` | Kernel scale/cutoff parameter. |
+| `-c` | Number of colors/types for the subgraph. |
+| `-m` | Matrix type (e.g., `Adjacency`, `Laplacian`). |
+| `-f` | Path to the input CSV file containing PDB IDs. |
+| `-dd` | **Data Directory:** Path to the folder containing PDB/Mol2 files. |
+| `-fd` | **Feature Directory:** Output path for the generated features. |
+
+---
+
+## 📂 Project Structure
+
+* `src/`: Contains Python drivers and C++ source files.
+* `make.sh`: Build script to invoke CMake and Make.
+* `CMakeLists.txt`: Configuration for the build system (may require manual editing).
