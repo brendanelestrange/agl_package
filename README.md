@@ -31,7 +31,7 @@ conda create -n agl_fast
 conda activate agl_fast
 
 # Install C++ dependencies
-conda install -c conda-forge chemfiles
+conda install -c conda-forge chemfiles  compilers llvm-openmp
 
 # Install Python dependencies
 conda install xgboost scikit-learn numpy pandas
