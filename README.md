@@ -54,11 +54,9 @@ Once dependencies are installed, you need to compile the C++ shared library usin
     ```bash
     chmod +x ./make.sh
     ./make.sh
-    ```
-    or if you're on ISAAC
-   ```bash
-   chmod +x ./make_isaac.sh
-   ./make_isaac.sh
+    #or
+    chmod +x ./make_isaac.sh
+    ./make_isaac.sh
     ```
 ---
 
