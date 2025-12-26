@@ -2,15 +2,17 @@
 
 **Fast, C++ accelerated calculation of Multiscale Weighted Colored Subgraphs (MWCGS) for protein-ligand complexes.**
 
-This package calculates algebraic graph features (AGL-Score) for molecular binding interfaces. It uses a hybrid C++/Python architecture (via Pybind11 and Eigen) to achieve orders of magnitude speedup over pure Python implementations.
+This package calculates algebraic graph features (AGL-Score) for molecular binding interfaces. It utilizes a hybrid C++/Python architecture (via Pybind11 and Eigen) to achieve orders of magnitude speedup compared to pure Python implementations.
 
 ---
 
 ## 🛠 Prerequisites
 
-Before installing the Python package, you **must** have the following C++ libraries installed on your system.
+Before building the package, you **must** ensure the following C++ libraries and environments are set up.
 
-### 1. OpenMP (Required for Parallelism)
+### 1. System Dependencies (OpenMP)
+OpenMP is required for parallelization support in the C++ layer.
+
 * **macOS:**
     ```bash
     brew install libomp
@@ -20,24 +22,16 @@ Before installing the Python package, you **must** have the following C++ librar
     sudo apt-get install libomp-dev
     ```
 
-### 2. Chemfiles (Required for PDB/Mol2 Parsing)
-The easiest way to install Chemfiles is via Conda/Mamba, which places the headers and libraries where the build system can find them.
-    ```bash
-    conda create -n agl_fast
-    conda activate agl_fast
-    conda install -c conda-forge chemfiles
-    conda install xgboost scikit-learn numpy pandas
-    ```
+### 2. Conda Environment (Chemfiles & Python Libs)
+The easiest way to handle the dependency on `Chemfiles` (required for PDB/Mol2 parsing) is via Conda/Mamba.
 
-### 3. Use ./make.sh
-Ensure you're in the base directory and run the file. It is likely you will have to fiddle with the CMakeLists.txt to make it work.
-    ```bash
-    chmod +x ./make.sh
-    ./make.sh
-    ```
+```bash
+# Create and activate the environment
+conda create -n agl_fast
+conda activate agl_fast
 
-### 4. Use it for Feature Generation
-Now we can use this the same way we use AGL-Score. You can generate the features using get_agl_features.py in the src directory. Please get the data from PDBBind. Here's a sample usage: 
-    ```bash
-     python get_agl_features.py -k 112 -c 12 -m Adjacency -f '../csv_data_file/PDBbindv2016_GeneralSet.csv' -dd '../data/2016' -fd '../Features'
-    ```
+# Install C++ dependencies
+conda install -c conda-forge chemfiles
+
+# Install Python dependencies
+conda install xgboost scikit-learn numpy pandas
