@@ -23,7 +23,7 @@ Before installing the Python package, you **must** have the following C++ librar
 ### 2. Chemfiles (Required for PDB/Mol2 Parsing)
 The easiest way to install Chemfiles is via Conda/Mamba, which places the headers and libraries where the build system can find them.
 ```bash
-conda create -n agl_fast
-conda activate agl_fast
+    conda create -n agl_fast
+    conda activate agl_fast
     conda install -c conda-forge chemfiles
     conda install xgboost scikit-learn numpy pandas
