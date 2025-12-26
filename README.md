@@ -22,8 +22,22 @@ Before installing the Python package, you **must** have the following C++ librar
 
 ### 2. Chemfiles (Required for PDB/Mol2 Parsing)
 The easiest way to install Chemfiles is via Conda/Mamba, which places the headers and libraries where the build system can find them.
-```bash
+    ```bash
     conda create -n agl_fast
     conda activate agl_fast
     conda install -c conda-forge chemfiles
     conda install xgboost scikit-learn numpy pandas
+    ```
+
+### 3. Use ./make.sh
+Ensure you're in the base directory and run the file. It is likely you will have to fiddle with the CMakeLists.txt to make it work.
+    ```bash
+    chmod +x ./make.sh
+    ./make.sh
+    ```
+
+### 4. Use it for Feature Generation
+Now we can use this the same way we use AGL-Score. You can generate the features using get_agl_features.py in the src directory. Please get the data from PDBBind. Here's a sample usage: 
+    ```bash
+     python get_agl_features.py -k 112 -c 12 -m Adjacency -f '../csv_data_file/PDBbindv2016_GeneralSet.csv' -dd '../data/2016' -fd '../Features'
+    ```
