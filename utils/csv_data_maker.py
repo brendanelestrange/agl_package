@@ -1,7 +1,7 @@
 import csv
 
-input_file = "INDEX_general_PL_data.2020"
-output_file = "converted.csv"
+input_file = "PDBbind_core_set_v2007.2.lst"
+output_file = "CASF_2007_CoreSet.csv"
 
 data = []
 

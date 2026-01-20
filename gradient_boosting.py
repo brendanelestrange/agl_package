@@ -57,9 +57,9 @@ def main():
         subsample = .7,
         random_state=args.random_state,
         colsample_bytree=.6,
-        n_jobs=-1,               # all your cores
+        n_jobs=4,               # all your cores
         tree_method="approx",
-        early_stopping_rounds=50
+        # early_stopping_rounds=100
     )
 
     model.fit(

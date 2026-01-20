@@ -18,29 +18,25 @@ using Eigen::VectorXd;
 using std::vector;
 using std::string;
 
-// --- 1. MASTER LISTS ---
-const vector<string> PROTEIN_TYPES = {
-    "C", "CA", "CB", "CD", "CD1", "CD2", "CE", "CE1", "CE2", "CE3", 
-    "CG", "CG1", "CG2", "CH2", "CZ", "CZ2", "CZ3", 
-    "N", "ND1", "ND2", "NE", "NE1", "NE2", "NH1", "NH2", "NZ", 
-    "O", "OD1", "OD2", "OE1", "OE2", "OG", "OG1", "OH", "OXT", 
-    "SD", "SG"
+const std::vector<std::string> PROTEIN_TYPES = {
+    "C", "N", "O", "S"
 };
 
-const vector<string> LIGAND_ELEMS = {
-    "As", "B", "Be", "Br", "C", "Cl", "Co", "Cu", "F", "Fe", 
-    "H", "Hg", "I", "Ir", "Mg", "N", "O", "Os", "P", "Pt", 
-    "Re", "Rh", "Ru", "S", "Sb", "Se", "Si", "Te", "V", "Zn"
+const std::vector<std::string> LIGAND_ELEMS = {
+    "H", "C", "N", "O", "F", "P", "S", "Cl", "Br", "I"
 };
 
-// --- 2. RADII MAP ---
-std::unordered_map<string, float> vwals_rad {
-    {"As", 1.85}, {"B", 0.85},  {"Be", 1.53}, {"Br", 1.85}, {"C", 1.70}, 
-    {"Cl", 1.75}, {"Co", 2.00}, {"Cu", 1.28}, {"F", 1.47},  {"Fe", 1.26}, 
-    {"H", 1.20},  {"Hg", 1.50}, {"I", 1.98},  {"Ir", 2.00}, {"Mg", 1.73}, 
-    {"N", 1.55},  {"O", 1.52},  {"Os", 2.00}, {"P", 1.80},  {"Pt", 1.75}, 
-    {"Re", 2.05}, {"Rh", 2.00}, {"Ru", 2.05}, {"S", 1.80},  {"Sb", 2.06}, 
-    {"Se", 1.90}, {"Si", 2.10}, {"Te", 1.40}, {"V", 1.34},  {"Zn", 1.39}
+std::unordered_map<std::string, float> vwals_rad = {
+    {"H",  1.20},
+    {"C",  1.70},
+    {"N",  1.55},
+    {"O",  1.52},
+    {"F",  1.47},
+    {"P",  1.80},
+    {"S",  1.80},
+    {"Cl", 1.75},
+    {"Br", 1.85},
+    {"I",  1.98}
 };
 
 const float SIGMA = 0.2127; 
@@ -77,7 +73,6 @@ float distance_calc(const Point& first, const Point& second) {
     return std::sqrt(dx * dx + dy * dy + dz * dz);
 }
 
-// --- NEW: KERNEL DISPATCHER ---
 float kernel(float dist, float vdw_rad, float kappa, float tau, const string& k_type) {
     float eta = tau * vdw_rad;
     char type_char = std::tolower(k_type[0]); // Check first char ('e', 'l', 'r', etc.)

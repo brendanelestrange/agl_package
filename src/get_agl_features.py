@@ -6,7 +6,12 @@ Introduction:
 
 Author:
     Masud Rana (masud.rana@uky.edu)
-    (Updated for C++ Integration)
+    Updated for C++ Integration by Brendan LeStrange 01/16/2026
+    
+    usage: python get_agl_features.py -k 112 -c 12 -m Adjacency -f 
+    '../csv_data_file/PDBbindv2016_GeneralSet.csv' -dd 
+    '../PDBbind_v2016_general_set' -fd '../Features'
+    
 """
 
 import sys
@@ -19,17 +24,11 @@ import time
 import agl_cpp
 
 PROTEIN_TYPES = [
-    "C", "CA", "CB", "CD", "CD1", "CD2", "CE", "CE1", "CE2", "CE3", 
-    "CG", "CG1", "CG2", "CH2", "CZ", "CZ2", "CZ3", 
-    "N", "ND1", "ND2", "NE", "NE1", "NE2", "NH1", "NH2", "NZ", 
-    "O", "OD1", "OD2", "OE1", "OE2", "OG", "OG1", "OH", "OXT", 
-    "SD", "SG"
+    "C", "N", "O", "S"
 ]
 
 LIGAND_ELEMS = [
-    "As", "B", "Be", "Br", "C", "Cl", "Co", "Cu", "F", "Fe", 
-    "H", "Hg", "I", "Ir", "Mg", "N", "O", "Os", "P", "Pt", 
-    "Re", "Rh", "Ru", "S", "Sb", "Se", "Si", "Te", "V", "Zn"
+    "H", "C", "N", "O", "F", "P", "S", "Cl", "Br", "I"
 ]
 
 # The 10 stats calculated in agl_binding.cpp
@@ -42,7 +41,7 @@ class AlgebraicGraphLearningFeatures:
 
     # Attempt to load kernels, or handle gracefully if missing
     try:
-        df_kernels = pd.read_csv('../../utils/kernels.csv')
+        df_kernels = pd.read_csv('../utils/kernels.csv')
     except FileNotFoundError:
         df_kernels = pd.DataFrame()
 
@@ -110,35 +109,35 @@ class AlgebraicGraphLearningFeatures:
         return df_features
 
     def main(self):
-        if not self.df_kernels.empty and self.kernel_index is not None:
-            k_row = self.df_kernels.loc[self.kernel_index]
-            parameters = {
-                'type': k_row['type'],
-                'power': k_row['power'],
-                'tau': k_row['tau'],
-                'cutoff': self.cutoff
-            }
-        else:
-            parameters = {
-                'type': 'exponential',
-                'power': 6.0,
-                'tau': 4.0,
-                'cutoff': self.cutoff
-            }
+        for i in range(len(self.df_kernels)):
+            if not self.df_kernels.empty and self.kernel_index is not None:
+                k_row = self.df_kernels.loc[i]
+                parameters = {
+                    'type': k_row['type'],
+                    'power': k_row['power'],
+                    'tau': k_row['tau'],
+                    'cutoff': self.cutoff
+                }
+            else:
+                parameters = {
+                    'type': 'exponential',
+                    'power': 6.0,
+                    'tau': 4.0,
+                    'cutoff': self.cutoff
+                }
 
-        df_features = self.get_agl_features(parameters)
+            df_features = self.get_agl_features(parameters)
 
-        csv_file_name_only = ntpath.basename(self.path_to_csv).split('.')[0]
-        
-        k_idx_str = self.kernel_index if self.kernel_index is not None else "custom"
-        output_file_name = f'{csv_file_name_only}_agl_{self.matrix_type}_matrix_ker{k_idx_str}_cutoff{self.cutoff}.csv'
+            csv_file_name_only = ntpath.basename(self.path_to_csv).split('.')[0]
+            
+            output_file_name = f'{csv_file_name_only}_agl_{self.matrix_type}_matrix_ker{i}_cutoff{self.cutoff}.csv'
 
-        if not os.path.exists(self.feature_folder):
-            os.makedirs(self.feature_folder)
+            if not os.path.exists(self.feature_folder):
+                os.makedirs(self.feature_folder)
 
-        output_path = f'{self.feature_folder}/{output_file_name}'
-        df_features.to_csv(output_path, index=False, float_format='%.5f')
-        print(f"Saved features to: {output_path}")
+            output_path = f'{self.feature_folder}/{output_file_name}'
+            df_features.to_csv(output_path, index=False, float_format='%.5f')
+            print(f"Saved features to: {output_path}")
 
 
 def get_args(args):
